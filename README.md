@@ -115,8 +115,7 @@ $ heroku login
 ##添加SSH密钥
 $ heroku keys:add
 ##在Heroku上面部署你的应用，Heroku会为你的项目分配一个二级域名
-$ heroku create
-（会产生一个网址，那个就是你的项目部署到Heroku的地址）
+ 
 ##最后一步，把你的应用推送到Heroku
 $ git push heroku master
 
