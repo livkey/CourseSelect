@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   #添加密码重置需要的路由
   resources :password_resets, only: [:new, :create, :edit, :update]
+  
+  resources :account_activations, only: [:edit]#好不容易找到了。
  
   resources :grades do
     collection do

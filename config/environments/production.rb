@@ -76,23 +76,23 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  
+
 =begin
   #生产环境中邮件功能代码 
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default :charset => 'utf-8'
-  config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
-  host = '<your heroku app>.herokuapp.com'
+  host = 'https://courseselectucas.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
+  
   ActionMailer::Base.smtp_settings = {
     :address => 'smtp.sendgrid.net',
-    :port => '587',
+    :port => '25',
     :authentication => :plain,
-    :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SENDGRID_PASSWORD'],
+    :user_name => "408840259@qq.com",
+    :password => "livkey123",
     :domain => 'heroku.com',
-    :enable_starttls_auto => true      
-    }
-=end
+    :enable_starttls_auto => true   
+  }
+=end 
+
 end
