@@ -109,17 +109,17 @@ $ bundle install --without production
 ##提交改动：
 $ git commit -a -m "Update Gemfile.lock for Heroku"
 ##检查系统中安装Heroku命令行客户端:(会看到版本号)
+heroku create youappname
 $ heroku version
 ##登陆Heroku账号，需要输入账号和密码
 $ heroku login
 ##添加SSH密钥
 $ heroku keys:add
 ##在Heroku上面部署你的应用，Heroku会为你的项目分配一个二级域名
-$ heroku create
-（会产生一个网址，那个就是你的项目部署到Heroku的地址）
+ 
 ##最后一步，把你的应用推送到Heroku
 $ git push heroku master
-
+ heroku rake db:migrate
 
 项目可直接在Heroku上免费部署
 

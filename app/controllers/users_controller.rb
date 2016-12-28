@@ -12,8 +12,8 @@ class UsersController < ApplicationController
       #redirect_to root_url, flash: {success: "新账号注册成功,请登录"}
       
       #激活检查
-      @user.send_activation_email
-      flash[:info] = "请检查你的邮箱激活链接并激活账户."
+      @user.send_activation_email 
+      flash[:info] = "Please check your email to activate your account."
       redirect_to root_url
     else
       flash[:warning] = "账号信息填写有误,请重试"
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :major, :department, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :num, :major, :department, :password, :password_confirmation)
   end
 
   # Confirms a logged-in user.

@@ -23,12 +23,12 @@
     
     <!--编号应该在注册的时候添加，负责校外人员也可以注册-->
     <div class="form-group">
-      <%= f.label "编号", class: 'col-sm-3 control-label' %>
+      <%= f.label "学号", class: 'col-sm-3 control-label' %>
       <div class="col-sm-9">
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></div>
           <!--这应该写个正则表达式判断是不是学号类型-->
-          <%= f.text_field :num, class: 'form-control', placeholder: "输入您的学号或者职工号" %>
+          <%= f.text_field :num, class: 'form-control', placeholder: "输入您的学号" %>
         </div>
       </div>
     </div>
