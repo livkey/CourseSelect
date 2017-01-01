@@ -22,9 +22,9 @@
       <li ><%= link_to "课程章节安排" ,coursecontent_course_path(@course)%></li>
       <li ><%= link_to "课程教师信息" ,courseteacher_course_path(@course)%></li>
     <% end %>
-     <table class="table ">
+     <table class="table">
          <div class="col-md-offset-1 col-sm-10">
-         <h3> <b>课程特点</b></h3>
+         <h3> <b>课程详情</b></h3>
          
           </div>
            
@@ -64,25 +64,25 @@
               </tr>
             </tbody>
           </table>
-    <% if teacher_logged_in?  %>
+        <% if teacher_logged_in?  %>
       
-          <div class="col-md-offset-1 col-sm-10 ">
+          <div class="col-md-offset-0 col-sm-11 ">
           <h3>教学目的及要求</h3><br/>
           <td><%= @course.course_aim %></td>
           </div>
-         <div class="col-md-offset-1 col-sm-10 ">
+         <div class="col-md-offset-0 col-sm-12 ">
           <h3>教学章节安排</h3><br/>
           <td><%= @course.course_content %></td>
           </div>
-          <div class="col-md-offset-1 col-sm-10">
+          <div class="col-md-offset-0 col-sm-11">
           <h3>课程教师信息</h3><br/>
           <td><%= @course.course_teacher %></td>
           </div>
-          <li ><%= link_to "修改课程详细信息" ,edit_course_path(@course), class: 'btn btn-xs btn-info'%></li>
-    
+        <li ><%= link_to "修改课程详细信息" ,edit_course_path(@course), class: 'btn btn-success btn-info'%></li>
+  
      <%end%>
      </ul> 
-<br/> <br/>     
+      <br/> <br/>     
    </div>
   </div>
   </div>
