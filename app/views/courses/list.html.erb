@@ -10,7 +10,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">选修课程
             
-            <font name="queryInputWarningInfo" id="queryInputWarning" style="color:yellow; left:50%;position:absolute;font-size:18px"></font>
+            <font name="queryInputWarningInfo" id="queryInputWarning" style="color:yellow; left:43%;position:absolute;font-size:18px"></font>
             <%= render "courses/filterselectform" %>
             
           </h3>
@@ -56,9 +56,9 @@
                   <td><%= course.course_time %></td>
                   <td><%= course.teacher.name %></td> 
                   
-                  <td style="width:5%;padding:0"><%= link_to "加入", select_course_path(course), class: 'btn-sm btn-info' %></td>
                   <td style="width:8%;padding:0"><%= link_to "选为学位课", selectasdegree_course_path(course), class: 'btn-sm btn-info' %></td>
-                  <td style="width:9%;padding:0"><%= link_to "选为非学位课", select_course_path(course), class: 'btn-sm btn-info' %></td>
+                  <td style="width:9%;padding:0"><%= link_to "选为非学位课", selectasnondegree_course_path(course), class: 'btn-sm btn-info' %></td>
+                  <td style="width:5%;padding:0"><%= link_to "旁听", selectasPT_course_path(course), class: 'btn-sm btn-info' %></td>
 
                 </tr>
             <% end %>

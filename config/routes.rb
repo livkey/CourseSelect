@@ -25,8 +25,9 @@ Rails.application.routes.draw do
  
   resources :courses do
     member do
-      get :select
+      get :selectasPT
       get :selectasdegree
+      get :selectasnondegree
       get :quit
       get :open
       get :close

@@ -41,12 +41,12 @@ ActiveRecord::Schema.define(version: 20170101051307) do
     t.integer  "course_id"
     t.integer  "user_id"
     t.integer  "grade"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "degree",       default: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "rank_teacher"
     t.integer  "rank_course"
     t.string   "rank_comment"
+    t.integer  "degree",       default: 0
   end
 
   add_index "grades", ["course_id"], name: "index_grades_on_course_id", using: :btree

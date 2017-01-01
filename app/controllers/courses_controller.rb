@@ -73,8 +73,10 @@ class CoursesController < ApplicationController
     if @queryType.nil? == false
      @queryinfo = params[:query]
      if @queryinfo.nil? == false
+      # 课程名称
         if @queryType == 2 
             @course = Course.where("name like '%#{@queryinfo}%'")  
+            # 授课教师姓名
         elsif @queryType == 10
             @teacherName = User.where("name like '%#{@queryinfo}%'")
             @teacherName.each do |teacherSingle|
@@ -82,20 +84,28 @@ class CoursesController < ApplicationController
                     @course.push courseSingle
                 end
             end
+            # 课程编号
         elsif @queryType == 1
             @course = Course.where("course_code like '#{@queryinfo}%'")
+            # 课时学分
         elsif @queryType == 3
             @course = Course.where("credit like '#{@queryinfo}'")
+            # 课程类型
         elsif @queryType == 4
             @course = Course.where("course_type like '#{@queryinfo}'")
+            # 授课方式
         elsif @queryType == 5
             @course = Course.where("teaching_type like '#{@queryinfo}'")
+            # 考试方式
         elsif @queryType == 6
             @course = Course.where("exam_type like '#{@queryinfo}'")
+            # 授课地点
         elsif @queryType == 7
-            @course = Course.where("class_room like '#{@queryinfo}'")
+            @course = Course.where("class_room like '#{@queryinfo}%'")
+            # 上课周数
         elsif @queryType == 8
             @course = Course.where("course_week like '#{@queryinfo}'")
+            # 上课时间
         elsif @queryType == 9
             @course = Course.where("course_time like '#{@queryinfo}'")    
         else
@@ -118,12 +128,12 @@ class CoursesController < ApplicationController
     end
   end
 
-  def select
+  def selectasPT
     @course=Course.find_by_id(params[:id])
     current_user.courses<<@course
     @grades=current_user.grades.find_by(course_id: params[:id])
-    @grades.update_attributes(:degree => false)
-    flash={:success => "成功选择该课程为非学位课: #{@course.name}"}
+    @grades.update_attributes(:degree => 3)
+    flash={:success => "成功选择该课程为旁听课: #{@course.name}"}
     redirect_to courses_path, flash: flash
   end
   
@@ -131,8 +141,17 @@ class CoursesController < ApplicationController
     @course=Course.find_by_id(params[:id])
     current_user.courses<<@course
     @grades=current_user.grades.find_by(course_id: params[:id])
-    @grades.update_attributes(:degree => true)
+    @grades.update_attributes(:degree => 1)
     flash={:success => "成功选择课程为学位课: #{@course.name}"}
+    redirect_to courses_path, flash: flash
+  end
+
+  def selectasnondegree
+    @course=Course.find_by_id(params[:id])
+    current_user.courses<<@course
+    @grades=current_user.grades.find_by(course_id: params[:id])
+    @grades.update_attributes(:degree => 0)
+    flash={:success => "成功选择课程为非学位课: #{@course.name}"}
     redirect_to courses_path, flash: flash
   end
 
@@ -146,6 +165,40 @@ class CoursesController < ApplicationController
   def credittips
     @courses=current_user.courses
     @grades=current_user.grades
+    
+    #旁听课学分统计
+    @chosen_PT_public = 0.0
+    @chosen_PT_major = 0.0
+    @chosen_PT_all = 0.0
+    
+    @grades.each do |grade|
+      if grade.degree == 3
+        if grade.course.course_type == "公共选修课" then
+          @chosen_PT_public = @chosen_PT_public + grade.course.credit[-3..-1].to_f
+        end
+        if grade.course.course_type == "专业核心课" then
+          @chosen_PT_major = @chosen_PT_major + grade.course.credit[-3..-1].to_f
+        end
+      end
+    end
+    @chosen_PT_all = @chosen_PT_major + @chosen_PT_public
+    
+    @obtained_PT_all = 0.0
+    @obtained_PT_public = 0.0
+    @obtained_PT_major = 0.0
+    @grades.each do |grade|
+      if grade.degree == 3 && grade.grade.nil? == false
+        if grade.course.course_type == "公共选修课" then
+          @obtained_PT_public = @obtained_PT_public + grade.course.credit[-3..-1].to_f
+        end
+        if grade.course.course_type == "专业核心课" then
+          @obtained_PT_major = @obtained_PT_major + grade.course.credit[-3..-1].to_f
+        end
+      end
+    end
+    @obtained_PT_all = @obtained_PT_major + @obtained_PT_public
+    
+    
     @chosen_credit_all = 0.0
     @chosen_credit_public = 0.0
     @chosen_credit_major = 0.0
@@ -183,12 +236,16 @@ class CoursesController < ApplicationController
  
  def modifydegree
     @grades=current_user.grades.find_by(course_id: params[:id])
-    if @grades.degree then
-      @grades.update_attributes(:degree => false)
-      flash={:success => "更改为非学位课"}
+    @courseName = Course.find_by_id(params[:id]).name
+    if @grades.degree == 1 then
+      @grades.update_attributes(:degree => 0)
+      flash={:success => "#{@courseName}更改为非学位课"}
+    elsif @grades.degree == 3 then
+      @grades.update_attributes(:degree => 0)
+      flash={:success => "#{@courseName}更改为非学位课"}
     else
-      @grades.update_attributes(:degree => true)
-      flash={:success => "更改为学位课"}
+      @grades.update_attributes(:degree => 1)
+      flash={:success => "#{@courseName}更改为学位课"}
     end
     redirect_to courses_path, flash: flash
  end
