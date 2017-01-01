@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
 
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -21,8 +25,9 @@ Rails.application.routes.draw do
  
   resources :courses do
     member do
-      get :select
+      get :selectasPT
       get :selectasdegree
+      get :selectasnondegree
       get :quit
       get :open
       get :close
@@ -36,17 +41,27 @@ Rails.application.routes.draw do
       
     end
   end
-
+ 
+  
+  #添加账户激活需要的路由
+  resources :account_activations, only: [:edit]
+  #添加密码重置需要的路由
+  resources :password_resets, only: [:new, :create, :edit, :update]
+  
+  resources :account_activations, only: [:edit]#好不容易找到了。
+ 
   resources :grades do
     collection do
       get :evaluate
     end
   end
-  resources :users
+  resources :users 
 
   get 'sessions/login' => 'sessions#new'
   post 'sessions/login' => 'sessions#create'
+  
   delete 'sessions/logout' => 'sessions#destroy'
+  
   # Example resource route with options:
   #   resources :products do
   #     member do

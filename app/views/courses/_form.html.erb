@@ -27,7 +27,10 @@
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-arrow-right"></span></div>
           
-             <%= f.select( 'course_type',{"专业课"=>"专业课","一级学科核心课"=>"一级学科核心课","一级学科普及课"=>"一级学科普及课","一级学科研讨课"=>"一级学科研讨课","专业核心课"=>"专业核心课","专业普及课"=>"专业普及课","公共选修课"=>"公共选修课"}, {:selected => "专业课"}, :class => "form-control") %>
+             <%= f.select( 'course_type',{"专业课"=>"专业课","一级学科核心课"=>"一级学科核心课",
+             "一级学科普及课"=>"一级学科普及课","一级学科研讨课"=>"一级学科研讨课",
+             "专业核心课"=>"专业核心课","专业普及课"=>"专业普及课","公共选修课"=>"公共选修课"}, 
+             {:selected => "专业课"}, :class => "form-control") %>
           
           <!--<%= f.text_field :course_type, class: 'form-control', placeholder: "输入课程属性" %>-->
         </div>
@@ -40,7 +43,9 @@
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-arrow-right"></span></div>
           
-          <%= f.select( 'teaching_type',{"授课、讨论"=>"授课、讨论","课堂讲授为主"=>"课堂讲授为主","讲课、上机"=>"讲课、上机","讲课、实验"=>"讲课、实验"}, {:selected => "授课、讨论"}, :class => "form-control") %>
+          <%= f.select( 'teaching_type',{"授课、讨论"=>"授课、讨论","课堂讲授为主"=>"课堂讲授为主",
+          "讲课、上机"=>"讲课、上机","讲课、实验"=>"讲课、实验"}, 
+          {:selected => "授课、讨论"}, :class => "form-control") %>
           
           <!--<%= f.text_field :teaching_type, class: 'form-control', placeholder: "输入授课方式" %>-->
         </div>
@@ -53,7 +58,9 @@
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-arrow-right"></span></div>
           
-          <%= f.select( 'exam_type',{"大开卷"=>"大开卷","课堂开卷"=>"课堂开卷","闭卷考试"=>"闭卷考试","读书报告"=>"读书报告","其他（需说明）"=>"其他（需说明）"}, {:selected => "闭卷考试"}, :class => "form-control") %>
+          <%= f.select( 'exam_type',{"大开卷"=>"大开卷","课堂开卷"=>"课堂开卷","闭卷考试"=>"闭卷考试",
+          "读书报告"=>"读书报告","其他（需说明）"=>"其他（需说明）"}, 
+          {:selected => "闭卷考试"}, :class => "form-control") %>
           
           <!--<%= f.text_field :exam_type, class: 'form-control', placeholder: "输入考试方式" %>-->
         </div>
@@ -83,7 +90,6 @@
       </div>
     </div>
 
-
     <div class="form-group">
       <%= f.label "教室", class: 'col-sm-2 control-label' %>
       <div class="col-sm-10">
@@ -91,10 +97,10 @@
           <div class="input-group-addon"><span class="glyphicon glyphicon-arrow-right"></span></div>
           <div class="form-control">
            <%= f.text_field :class_room, id: "course_address",placeholder: "教1-101",  readonly: true,  style: "background-color:#bfbfbf;appearance:none;width:20%;"  %>
-            <input style="appearance:none;width:20%;" id = "courseroom_index" placeholder="房间号" onchange="setValue('courseroom_index')" >
+            <input style="appearance:none;width:20%;"  value = "101" id = "courseroom_index" placeholder="房间号" onchange="setValue('courseroom_index')" >
           <!--  <class="coursetake_week" id= "coursetake_week" style="appearance:none;width:20%" onchange="setValue('courseTime')">-->
             
-            <label > <input type="radio" name="courseroom" value="教1" onclick="setValue('courseroom')" checked >教1</label>
+            <label > <input type="radio" name="courseroom" value="教1" onclick="setValue('courseroom')" checked="true" >教1</label>
             <label > <input type="radio" name="courseroom" value="教2" onclick="setValue('courseroom')"  >教2</label>
             <label > <input type="radio" name="courseroom" value="学1" onclick="setValue('courseroom')"  >学1</label>
             <label > <input type="radio" name="courseroom" value="学2" onclick="setValue('courseroom')"  >学2</label>
@@ -153,7 +159,7 @@
              <option>5-7</option>
              <option>5-8</option>
              <option>7-8</option>
-             <option>9-10</option>
+             <option>9-11</option>
             </select>
           
             </div>          

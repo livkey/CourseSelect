@@ -17,6 +17,8 @@
         <thead>
           <tr>
             <th>类别</th>
+            <th>旁听公共选修课程学分</th>
+            <th>旁听专业学位课程学分</th>
             <th>公共选修课程学分</th>
             <th>专业学位课学分要求</th>
             <th>总学分要求</th>
@@ -25,6 +27,8 @@
         <tbody>
           <tr class="active">
             <td>学习要求</td>
+            <td>无</td>
+            <td>无</td>
             <td>>=2.0学分</td>
             <td>>=12.0学分</td>
             <td>>=30.0学分</td>
@@ -32,6 +36,8 @@
           <tr class="success">
             <td>选课情况</td>
              <!--学分提示的方法在course_controller/credittips,不放入视图界面中计算-->
+             <td><%= @chosen_PT_public %>学分</td>
+             <td><%= @chosen_PT_major %>学分</td>
             <td><%= @chosen_credit_public %>学分</td>
             <td><%= @chosen_credit_major %>学分</td>
             <td><%= @chosen_credit_all %>学分</td>
@@ -39,6 +45,8 @@
           <tr class="danger">
             <td>获取学分</td>
             <!--学分计算的方法同样放在course_controller/credittips,不放入视图界面中计算-->
+            <td><%= @obtained_PT_public %>学分</td>
+            <td><%= @obtained_PT_major %>学分</td>
             <td><%= @obtained_credit_pubic %>学分</td>
             <td><%= @obtained_credit_major %>学分</td>
             <td><%= @obtained_credit_all %>学分</td>
@@ -51,83 +59,194 @@
 </div>
 
 <script type= "text/javascript">
- 
- 
- function setChart()
- {
-				var data = [
-				        	// {name : 'UC浏览器',value : 40.0,color:'#4572a7'},
-				        	// {name : 'QQ浏览器',value : 37.1,color:'#aa4643'},
-				        	// {name : '欧朋浏览器',value : 13.8,color:'#89a54e'},
-				        	// {name : '百度浏览器',value : 1.6,color:'#80699b'},
-				        	// {name : '海豚浏览器',value : 1.4,color:'#92a8cd'},
-				        	// {name : '天天浏览器',value : 1.2,color:'#db843d'},
-				        	{name : '公共选修课已选学分',value : <%= @chosen_credit_public %>,color:'#4572a7'},
-				        	{name : '专业学位课已选学分',value : <%= @chosen_credit_major %>,color:'#aa4643'}
-			        	];
-
-	        	
-				var chart = new iChart.Pie2D({
+ //绘制学分图表
+ function setChart(){
+			var data = [
+						{
+							name : '已选学分',
+							value:[<%= @chosen_credit_public %>, <%= @chosen_credit_major %>, <%= @chosen_credit_all %>],
+							color:'#47AAB3'
+						},
+			         	{
+			         		name : '待修学分',
+			         		value:[<%= 2-@chosen_credit_public>0? 2-@chosen_credit_public: 0 %>, <%= 12-@chosen_credit_major>0? 12-@chosen_credit_major: 0 %>,<%= 30-@chosen_credit_all>0? 30-@chosen_credit_all:0  %>],
+			         		color:'#ECAD55'
+			         	}
+			         ];
+	        
+			var chart = new iChart.BarStacked2D({
 					render : 'canvasDiv',
 					data: data,
+					labels:["公共选修课","专业学位课","总学分"],
 					title : {
-						text : "<%= current_user.name%>选课学分情况",
-						color : '#3e576f'
+						text:'<%= current_user.name%>选课学分情况',
+						width:400,
+						align:'left',
+						background_color : '#495998',
+						color:'#c0c8e7'
 					},
-					footnote : {
-						text : '国科大教务处',
-						color : '#486c8f',
-						fontsize : 11,
-						padding : '0 38'
-					},
-					sub_option : {
-						label : {
-							background_color:null,
-							sign:false,//设置禁用label的小图标
-							padding:'0 4',
-							border:{
-								enable:false,
-								color: '#666666',
-							},
-							fontsize:13,
-							fontweight:600,
-							color : '#4572a7'
-						},
-						border : {
-							width : 2,
-							color : '#ffffff'
-						}
-					},
-					shadow : true,
-					shadow_blur : 6,
-					shadow_color : '#aaaaaa',
-					shadow_offsetx : 0,
-					shadow_offsety : 0,
-					background_color:'#fefefe',
-					offsetx:-60,//设置向x轴负方向偏移位置60px
-					offset_angle:-150,//逆时针偏移120度
-					showpercent:true,
-					decimalsnum:2,
+					// subtitle : {
+					// 	text:'',
+					// 	width:280,
+					// 	height:20,
+					// 	fontsize:12,
+					// 	align:'left',
+					// 	color:'#c0c8e7'
+					// },
+					padding:10,
+					footnote : '国科大教务处',
 					width : 800,
 					height : 400,
-					radius:120
-				});
-				//利用自定义组件构造右侧说明文本
-				chart.plugin(new iChart.Custom({
-						drawFn:function(){
-							//计算位置
-							var y = chart.get('originy'),
-								w = chart.get('width');
-							
-							//在右侧的位置，渲染说明文字
-							chart.target.textAlign('start')
-							.textBaseline('middle')
-							.textFont('600 16px Verdana')
-							.fillText('公共选修课已选学分 <%= @chosen_credit_public%>\n专业学位课已选学分 <%= @chosen_credit_major%>',w-220,y-40,false,'#be5985',false,20);
+					bar_height:20,
+					background_color : '#353757',
+					shadow : true,
+					shadow_blur : 2,
+					shadow_color : '#aaaaaa',
+					shadow_offsetx : 1,
+					shadow_offsety : 0, 
+					sub_option:{
+						label:{color:'#ffffff',fontsize:12,fontweight:600},
+						border : {
+							width : 2,
+							color : '#d3d4f0'
+						} 
+					},
+					label:{color:'#d3d4f0',fontsize:12,fontweight:600},
+					showpercent:true,
+					decimalsnum:0,
+					legend:{
+						enable:true,
+						background_color : null,
+						line_height:25,
+						color:'#d3d4f0',
+						fontsize:12,
+						fontweight:600,
+						border : {
+							enable : false
 						}
-				}));
+					},
+					coordinate:{
+						background_color : 0,
+						axis : {
+							color : '#c0c8e7',
+							width : 0
+						}, 
+						scale:[{
+							 position:'bottom',	
+							 scale_enable : false,
+							 start_scale:0,
+							 scale_space:2,
+							 end_scale:12,
+							 label:{color:'#d3d4f0',fontsize:11,fontweight:600},
+							 listeners:{
+								parseText:function(t,x,y){
+									return {text:t}
+								}
+							 }
+						}],
+						width:600,
+						height:260
+					}
+			});
+
+			//利用自定义组件构造左侧说明文本
+			chart.plugin(new iChart.Custom({
+					drawFn:function(){
+						//计算位置
+						var coo = chart.getCoordinate(),
+							x = coo.get('originx'),
+							y = coo.get('originy'),
+							h = coo.height;
+						//在左下侧的位置，渲染一个单位的文字
+						chart.target.textAlign('start')
+						.textBaseline('bottom')
+						.textFont('600 11px Verdana')
+						.fillText('学分',x-20,y+h+30,false,'#a8b2d7');
+						
+					}
+			}));
+			
+			chart.draw();
+		}
+ 
+ 
+ 
+ 
+ //function setChart()
+ //{
+	// 			var data = [
+	// 			        	// {name : 'UC浏览器',value : 40.0,color:'#4572a7'},
+	// 			        	// {name : 'QQ浏览器',value : 37.1,color:'#aa4643'},
+	// 			        	// {name : '欧朋浏览器',value : 13.8,color:'#89a54e'},
+	// 			        	// {name : '百度浏览器',value : 1.6,color:'#80699b'},
+	// 			        	// {name : '海豚浏览器',value : 1.4,color:'#92a8cd'},
+	// 			        	// {name : '天天浏览器',value : 1.2,color:'#db843d'},
+	// 			        	{name : '公共选修课已选学分',value : <%= @chosen_credit_public %>,color:'#4572a7'},
+	// 			        	{name : '专业学位课已选学分',value : <%= @chosen_credit_major %>,color:'#aa4643'}
+	// 		        	];
+
+	        	
+	// 			var chart = new iChart.Pie2D({
+	// 				render : 'canvasDiv',
+	// 				data: data,
+	// 				title : {
+	// 					text : "<%= current_user.name%>选课学分情况",
+	// 					color : '#3e576f'
+	// 				},
+	// 				footnote : {
+	// 					text : '国科大教务处',
+	// 					color : '#486c8f',
+	// 					fontsize : 11,
+	// 					padding : '0 38'
+	// 				},
+	// 				sub_option : {
+	// 					label : {
+	// 						background_color:null,
+	// 						sign:false,//设置禁用label的小图标
+	// 						padding:'0 4',
+	// 						border:{
+	// 							enable:false,
+	// 							color: '#666666',
+	// 						},
+	// 						fontsize:13,
+	// 						fontweight:600,
+	// 						color : '#4572a7'
+	// 					},
+	// 					border : {
+	// 						width : 2,
+	// 						color : '#ffffff'
+	// 					}
+	// 				},
+	// 				shadow : true,
+	// 				shadow_blur : 6,
+	// 				shadow_color : '#aaaaaa',
+	// 				shadow_offsetx : 0,
+	// 				shadow_offsety : 0,
+	// 				background_color:'#fefefe',
+	// 				offsetx:-60,//设置向x轴负方向偏移位置60px
+	// 				offset_angle:-150,//逆时针偏移120度
+	// 				showpercent:true,
+	// 				decimalsnum:2,
+	// 				width : 800,
+	// 				height : 400,
+	// 				radius:120
+	// 			});
+	// 			//利用自定义组件构造右侧说明文本
+	// 			chart.plugin(new iChart.Custom({
+	// 					drawFn:function(){
+	// 						//计算位置
+	// 						var y = chart.get('originy'),
+	// 							w = chart.get('width');
+							
+	// 						//在右侧的位置，渲染说明文字
+	// 						chart.target.textAlign('start')
+	// 						.textBaseline('middle')
+	// 						.textFont('600 16px Verdana')
+	// 						.fillText('公共选修课已选学分 <%= @chosen_credit_public%>\n专业学位课已选学分 <%= @chosen_credit_major%>',w-220,y-40,false,'#be5985',false,20);
+	// 					}
+	// 			}));
 				
-				chart.draw();
-			}
+	// 			chart.draw();
+	// 		}
  
  </script>

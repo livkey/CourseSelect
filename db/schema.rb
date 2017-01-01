@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161225095346) do
+ActiveRecord::Schema.define(version: 20170101074402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,27 +23,27 @@ ActiveRecord::Schema.define(version: 20161225095346) do
     t.string   "teaching_type"
     t.string   "exam_type"
     t.string   "credit"
-    t.integer  "limit_num"
+    t.integer  "limit_num",     default: 0
     t.integer  "student_num",   default: 0
     t.string   "class_room"
     t.string   "course_time"
     t.string   "course_week"
     t.integer  "teacher_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.boolean  "open"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "open",          default: false
   end
 
   create_table "grades", force: :cascade do |t|
     t.integer  "course_id"
     t.integer  "user_id"
     t.integer  "grade"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "degree",       default: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "rank_teacher"
     t.integer  "rank_course"
     t.string   "rank_comment"
+    t.integer  "degree",       default: 0
   end
 
   add_index "grades", ["course_id"], name: "index_grades_on_course_id", using: :btree
@@ -57,10 +57,15 @@ ActiveRecord::Schema.define(version: 20161225095346) do
     t.string   "department"
     t.string   "password_digest"
     t.string   "remember_digest"
-    t.boolean  "admin",           default: false
-    t.boolean  "teacher",         default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "admin",             default: false
+    t.boolean  "teacher",           default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "activation_digest"
+    t.boolean  "activated",         default: false
+    t.datetime "activated_at"
+    t.string   "reset_digest"
+    t.datetime "reset_sent_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
