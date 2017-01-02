@@ -93,10 +93,12 @@
       
       
         <!--课表-->
-    <div class="panel panel-primary filterable" id="courseTable" style="left:-10%;top:10%;width:110%;position:relative;z-index:0;">
+    
+    <div class="panel panel-primary filterable" id="courseTable" style="left:-10%;top:10%;width:110%;position:relative;z-index:-1;">
         <div class="panel-heading">
           <% if student_logged_in? %><h3 class="panel-title">选课课表</h3><% end %>
-          <button style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:0.8%;position:absolute;z-index:0" onclick="downloadSchedule()">下载课表</button>
+          
+          <!--<button style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:0.8%;position:absolute;z-index:100" onclick="downloadSchedule()">下载课表</button>-->
         </div>
 
         <div class="panel-body">
@@ -252,7 +254,10 @@
     </div>
 
   </div>
+  
+  <button id="downloadBt" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:69%;position:absolute;z-index:100" onclick="downloadSchedule()">下载课表</button>
 </div>
+
 
 <!--<script src="../src/jquery.min.js"></script>-->
 <!--<script src="../src/jquery.table2excel.js"></script>-->
@@ -272,13 +277,14 @@
 
 
 <script type="text/javascript">  
-  window.onload=function(){
+  $(function(){
    document.getElementById("courseTable").style.display = "none";
-  }
+   document.getElementById("downloadBt").style.display = "none";
+  });
 
   function setSchedule(){
     document.getElementById("courseTable").style.display = "block";
-    
+    document.getElementById("downloadBt").style.display = "block";
     var hashWeek = {"周一":1,"周二":2,"周三":3,"周四":4,"周五":5,"周六":6,"周日":7};
     
     // document.getElementById("1-1").innerHTML = "高数";
