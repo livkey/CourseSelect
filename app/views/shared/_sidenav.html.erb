@@ -112,7 +112,7 @@
       </h4>
     </div>
 
-    <div id="EvaluationCollapse" class="panel-collapse collapse <%= "in" if ["grades"].include?(params[:controller]) %>">
+    <div id="EvaluationCollapse" class="panel-collapse collapse <%= "in" if ["grades"].include?(params[:controller]) %>" style="z-index:255">
       <div class="list-group">
 
         <% if teacher_logged_in? %>

@@ -10,7 +10,9 @@
     <div class="col-sm-10" style="left:14.5%; width:85.5%; position:absolute">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">选课学分提示<button style= "width:12%;height:95%;padding:2px;font-size:13px;color:black;float:right; position:relative" onclick="setChart()">已选课学分图表</button></h3>
+          <h3 class="panel-title">选课学分提示
+          <button id="showChart" value = 0 style= "width:12%;height:95%;padding:2px;font-size:13px;color:black;float:right; position:relative" onclick="setChart()">已选课学分图表</button>
+          </h3>
           
         </div>
         <table class="table">
@@ -57,10 +59,19 @@
 <script type= "text/javascript">
  //绘制学分图表
  function setChart(){
-			var data = [
+ 			var buvalue = document.getElementById("showChart").value;
+ 			if(buvalue == 0)
+ 			{
+ 				document.getElementById("showChart").value = 1;
+ 				var data = [
 						{
-							name : '已选学分',
-							value:[<%= @chosen_credit_public %>, <%= @chosen_credit_major %>, <%= @chosen_credit_all %>],
+							name : '已获学分',
+							value:[<%= @obtained_credit_pubic %>, <%= @obtained_credit_major %>, <%= @obtained_credit_all %>],
+							color:'#70CC33'
+						},
+						{
+							name : '在修学分',
+							value:[<%= @chosen_credit_public - @obtained_credit_pubic %>, <%= @chosen_credit_major-@obtained_credit_major %>, <%= @chosen_credit_all -@obtained_credit_all %>],
 							color:'#47AAB3'
 						},
 			         	{
@@ -75,7 +86,7 @@
 					data: data,
 					labels:["公共选修课","专业学位课","总学分"],
 					title : {
-						text:'<%= current_user.name%>选课学分情况',
+						text:'<%= current_user.name%>选课学分统计图',
 						width:400,
 						align:'left',
 						background_color : '#495998',
@@ -163,6 +174,12 @@
 			}));
 			
 			chart.draw();
+ 			}
+			else
+			{
+				document.getElementById("showChart").value = 0;
+				document.getElementById("canvasDiv").style.display = "none";
+			}
 		}
  
  

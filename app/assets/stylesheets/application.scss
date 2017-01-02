@@ -35,7 +35,7 @@ footer {
   // background-image: image-url('background.jpg');
   //background-color: #DADADA;
   background-repeat: no-repeat;
-  background-size: 100% 150%;
+  background-size: 150% 500%;
   // position: absolute;
   z-index: -1;
 }
@@ -270,3 +270,38 @@ html {
   right:10px; 
   text-align:right;
 } 
+
+// 课表样式
+main td {
+    width: 200px;
+    height: 56px;
+    text-align: center;
+    word-break: break-all;
+    word-wrap:break-word;
+    border: 1px solid #EEE;
+    border-spacing: 10px;
+    box-shadow: inset 0 0 1px 1px #000;
+}
+
+.classes {
+    width: 155px;
+    background: #DDD;
+    text-align: center;
+    word-wrap:break-word;
+    word-break: break-all;
+}
+
+.week {
+    height: 35px;
+    vertical-align: inherit;
+    text-align: center;
+    color: #233;
+    background: #CCC;
+    border: 1px solid grey;
+    box-shadow: inset 0 0 1px 1px #000;
+}
+
+.schedule{ 
+    border-spacing: -1px;
+    text-align: center;
+}
