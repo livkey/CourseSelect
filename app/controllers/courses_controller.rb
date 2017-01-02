@@ -193,7 +193,7 @@ class CoursesController < ApplicationController
       if @course.student_num.nil? or @course.student_num<=0
         @course.student_num=0
       end
-      #选课人数限制
+      #选课人数限制:达到限制人数不能加入课程
       if @course.limit_num.nil? == false and @course.limit_num>0
         if @course.limit_num < @course.student_num+1
           flash={:danger => "课容量已满: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.limit_num}"}
