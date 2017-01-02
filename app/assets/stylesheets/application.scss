@@ -256,3 +256,17 @@ html {
     font-size: 0;    
     line-height: 0;    
 }  
+
+
+.remember{
+  position:absolute;
+  top:-6px;
+  left:10px;
+}
+
+.forget{
+  position:absolute;
+  top:-6px;
+  right:10px; 
+  text-align:right;
+} 
