@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  
 
   get 'password_resets/new'
 
@@ -37,6 +36,9 @@ Rails.application.routes.draw do
       get :courseteacher
       get :courseplan
       get :modifydegree
+      get :studentlist
+      get :stuexport
+      post :import
     end
     collection do
       get :list
@@ -57,6 +59,7 @@ Rails.application.routes.draw do
   resources :grades do
     collection do
       get :evaluate
+     
     end
   end
   resources :users 
