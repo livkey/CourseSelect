@@ -175,72 +175,99 @@ class CoursesController < ApplicationController
     end
   end
   
-  
+  # 选为旁听课(不论人数限制、不论是否冲突)
   def selectasPT
-   @course=Course.find_by_id(params[:id])  #当前选的课程，检查无冲突再加入
-    test_course_conflict(@course)
-    if current_user.course_not_conflict #无冲突
-      current_user.courses<<@course  
-      @grades=current_user.grades.find_by(course_id: params[:id])
-      @grades.update_attributes(:degree => 3)
-      if @course.student_num.nil? or @course.student_num<=0
-        @course.student_num=0
-      end
-      @course.student_num +=1
-      @course.update_attributes(:student_num => @course.student_num)       
-      flash={:success => "成功选择课程为非学位课: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
-      redirect_to list_courses_path, flash: flash   #选完课后应停留在选课页面，否则继续选课很麻烦
-    else 
-      flash={:danger => "选课冲突！冲突课程: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
-      redirect_to courses_path, flash: flash
-    end
+   @course=Course.find_by_id(params[:id])
+    current_user.courses<<@course
+    @grades=current_user.grades.find_by(course_id: params[:id])
+     @grades.update_attributes(:degree => 3)
+     flash={:success => "成功选择该课程为旁听课: #{@course.name}"}
+     redirect_to list_courses_path, flash: flash
   end
   
+  #选为学位课
   def selectasdegree
    @course=Course.find_by_id(params[:id])  #当前选的课程，检查无冲突再加入
     test_course_conflict(@course)
     if current_user.course_not_conflict #无冲突
-      current_user.courses<<@course  
-      @grades=current_user.grades.find_by(course_id: params[:id])
-      @grades.update_attributes(:degree => 1)
       if @course.student_num.nil? or @course.student_num<=0
         @course.student_num=0
       end
+      #选课人数限制:达到限制人数不能加入课程
+      if @course.limit_num.nil? == false and @course.limit_num>0
+        if @course.limit_num < @course.student_num+1
+          flash={:danger => "课容量已满: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.limit_num}"}
+           redirect_to list_courses_path, flash: flash
+        end
+      end
+      if @course.limit_num.nil? or @course.limit_num<=0
+        @course.limit_num=0
+      end
+      
+      #成功选课
       @course.student_num +=1
-      @course.update_attributes(:student_num => @course.student_num)       
+      @course.update_attributes(:student_num => @course.student_num)
+      current_user.courses<<@course  
+      @grades=current_user.grades.find_by(course_id: params[:id])
+      @grades.update_attributes(:degree => 1)
       flash={:success => "成功选择课程为学位课: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
       redirect_to list_courses_path, flash: flash   #选完课后应停留在选课页面，否则继续选课很麻烦
+           
     else 
       flash={:danger => "选课冲突！冲突课程: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
-      redirect_to courses_path, flash: flash
+      redirect_to list_courses_path, flash: flash
     end
   end
 
+#选为非学位课
   def selectasnondegree                     #选课为什么不修改选课人数    #已修改 2017.1.1
     @course=Course.find_by_id(params[:id])  #当前选的课程，检查无冲突再加入
     test_course_conflict(@course)
     if current_user.course_not_conflict #无冲突
-      current_user.courses<<@course  
-      @grades=current_user.grades.find_by(course_id: params[:id])
-      @grades.update_attributes(:degree => 0)
       if @course.student_num.nil? or @course.student_num<=0
         @course.student_num=0
       end
+      #选课人数限制
+      if @course.limit_num.nil? == false and @course.limit_num>0
+        if @course.limit_num < @course.student_num+1
+          flash={:danger => "课容量已满: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.limit_num}"}
+           redirect_to list_courses_path, flash: flash
+        end
+      end
+     
+      if @course.limit_num.nil? or @course.limit_num<=0
+        @course.limit_num=0
+      end
+      #成功选课
       @course.student_num +=1
-      @course.update_attributes(:student_num => @course.student_num)       
-      flash={:success => "成功选择课程为非学位课: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
-      redirect_to list_courses_path, flash: flash   #选完课后应停留在选课页面，否则继续选课很麻烦
-    else 
+     @course.update_attributes(:student_num => @course.student_num)  
+      current_user.courses<<@course  
+     @grades=current_user.grades.find_by(course_id: params[:id])
+     @grades.update_attributes(:degree => 0)
+     flash={:success => "成功选择课程为非学位课: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
+     redirect_to list_courses_path, flash: flash   #选完课后应停留在选课页面，否则继续选课很麻烦
+      
+     else 
       flash={:danger => "选课冲突！冲突课程: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
-      redirect_to courses_path, flash: flash
+      redirect_to list_courses_path, flash: flash
     end
+    
   end
 
   def quit
     @course=Course.find_by_id(params[:id])
+    @grades=current_user.grades.find_by(course_id: params[:id])
+    if @course.student_num.nil? or @course.student_num<=0
+        @course.student_num=0
+    end
+    if @course.limit_num.nil? or @course.limit_num<=0
+        @course.limit_num=0
+    end
+    if @grades.degree != 3
+      @course.student_num -=1
+     @course.update_attributes(:student_num => @course.student_num)
+    end
     current_user.courses.delete(@course)
-    @course.student_num +=1
-    @course.update_attributes(:student_num => @course.student_num) 
     flash={:success => "成功退选课程: #{@course.name}"}
     redirect_to courses_path, flash: flash
   end
