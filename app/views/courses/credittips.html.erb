@@ -59,8 +59,13 @@
  function setChart(){
 			var data = [
 						{
-							name : '已选学分',
-							value:[<%= @chosen_credit_public %>, <%= @chosen_credit_major %>, <%= @chosen_credit_all %>],
+							name : '已获学分',
+							value:[<%= @obtained_credit_pubic %>, <%= @obtained_credit_major %>, <%= @obtained_credit_all %>],
+							color:'#70CC33'
+						},
+						{
+							name : '在修学分',
+							value:[<%= @chosen_credit_public - @obtained_credit_pubic %>, <%= @chosen_credit_major-@obtained_credit_major %>, <%= @chosen_credit_all -@obtained_credit_all %>],
 							color:'#47AAB3'
 						},
 			         	{
@@ -75,7 +80,7 @@
 					data: data,
 					labels:["公共选修课","专业学位课","总学分"],
 					title : {
-						text:'<%= current_user.name%>选课学分情况',
+						text:'<%= current_user.name%>选课学分统计图',
 						width:400,
 						align:'left',
 						background_color : '#495998',

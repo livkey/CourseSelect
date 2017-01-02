@@ -11,6 +11,9 @@
         <div class="panel-heading">
           <% if teacher_logged_in? %><h3 class="panel-title">授课列表</h3><% end %>
           <% if student_logged_in? %><h3 class="panel-title">已选课程</h3><% end %>
+          <% if student_logged_in? %>
+          <button style= "width:5%;height:6.5%;padding:2px;font-size:13px;color:black;left:90%; top:2%;position:absolute" onclick="setChart()">课表</button>
+          <% end %>
         </div>
 
         <div class="panel-body">
@@ -37,7 +40,7 @@
                 <th>学位课状态</th>
               <% end %>
             </tr>
-
+            </thead>
             <tbody>
             <% @course.each do |course| %>
                 <tr>
@@ -85,6 +88,60 @@
 
         </div>
       </div>
+      
+      <!--课表-->
+       <div class="panel panel-primary filterable" id="courseTable">
+        <div class="panel-heading">
+          <% if student_logged_in? %><h3 class="panel-title">授课列表</h3><% end %>
+        </div>
+
+        <div class="panel-body">
+          <table class="table2excel table table-responsive table-condensed table-hover" frame=box border=1 style="text_aligh:center"   cellpadding=0 cellspacing=0 bordercolor=black id="coursesTable">
+            <caption>吴**个人课表</caption>
+              <thead>			
+							<tr>
+                 <th colspan=2  align="center">时间</th>
+                  <th align="center">星期一</th>
+                  <th align="center">星期二</th>
+                  <th align="center">星期三</th>
+                  <th align="center">星期四</th>
+                  <th align="center">星期五</th>
+                  <th align="center">星期六</th>
+                  <th align="center">星期日</th>
+              </tr>
+						</thead>
+
+            <tbody>
+              <tr>
+                <td colspan=2 align=center>早晨</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td>
+              </tr>
+              <tr>
+                <td  rowspan=4  align=center>上午</td>
+                <td >第<br>1<br>节</td>
+              <td ></td><td ></td><td></td></tr>
+              <tr>
+                <td>第<br>2<br>节</td>
+              <td ></td><td ></td><td></td></tr>
+              <tr>
+                <td >第<br>3<br>节</td>
+              <td ></td><td ></td><td></td></tr>
+              <tr>
+                <td >第<br>4<br>节</td>
+              <td ></td><td ></td><td></td></tr>
+              <tr>
+              <td  rowspan=6 align=center>下午</td>
+              <td >第<br>5<br>节</td>
+              <td ></td><td ></td><td></td><td></td><td></td><td></td><td></td></tr>
+              
+                
+                
+          </table>
+
+          </div>
+      </div>
+      
+      <div style="height:50px; width:100%">
+        </div
     </div>
   </div>
 </div>
