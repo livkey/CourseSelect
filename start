@@ -5,3 +5,5 @@ rake db:create:all
 rake db:migrate
 rake db:seed
 rails s -b $IP -p $PORT
+
+rake db:migrate:reset  清空数据库用的
