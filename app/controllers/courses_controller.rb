@@ -206,9 +206,7 @@ class CoursesController < ApplicationController
       
       #成功选课
       @course.student_num +=1
-      @course.limit_num +=1
       @course.update_attributes(:student_num => @course.student_num)
-      @course.update_attributes(:limit_num => @course.student_num)  
       current_user.courses<<@course  
       @grades=current_user.grades.find_by(course_id: params[:id])
       @grades.update_attributes(:degree => 1)
@@ -242,9 +240,7 @@ class CoursesController < ApplicationController
       end
       #成功选课
       @course.student_num +=1
-      @course.limit_num +=1
      @course.update_attributes(:student_num => @course.student_num)  
-     @course.update_attributes(:limit_num => @course.limit_num)  
       current_user.courses<<@course  
      @grades=current_user.grades.find_by(course_id: params[:id])
      @grades.update_attributes(:degree => 0)
@@ -269,9 +265,7 @@ class CoursesController < ApplicationController
     end
     if @grades.degree != 3
       @course.student_num -=1
-      @course.limit_num -=1
      @course.update_attributes(:student_num => @course.student_num)
-     @course.update_attributes(:limit_num => @course.limit_num) 
     end
     current_user.courses.delete(@course)
     flash={:success => "成功退选课程: #{@course.name}"}
