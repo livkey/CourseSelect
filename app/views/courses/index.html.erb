@@ -303,7 +303,8 @@
       for(var index = eachClassStart; index<=eachClassEnd; index++)
         // arr.push(index+"-"+eachWeek);
         {
-          document.getElementById(index+"-"+eachWeek).innerHTML = "<%= course.name %>"+"<br/>"+"<%= course.teaching_type %>"+"<br/>"+"<%= course.exam_type %>"+"<br/>"+"<%= course.teacher.name %>"+"<br/>"+"<%= course.course_week %>"+"<br/>"+"<%= course.course_time %>"+"<br/>"+"<%= course.class_room %>";
+          // 旁听课程可能会与选课时间有冲突
+          document.getElementById(index+"-"+eachWeek).innerHTML += "<%= course.name %>"+"<br/>"+"<%= course.teaching_type %>"+"<br/>"+"<%= course.exam_type %>"+"<br/>"+"<%= course.teacher.name %>"+"<br/>"+"<%= course.course_week %>"+"<br/>"+"<%= course.course_time %>"+"<br/>"+"<%= course.class_room %>";
         }
       // alert(arr);
       // var dur = eachClassEnd - eachClassStart+1;
