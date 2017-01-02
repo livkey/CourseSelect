@@ -12,7 +12,7 @@
           <% if teacher_logged_in? %><h3 class="panel-title">授课列表</h3><% end %>
           <% if student_logged_in? %><h3 class="panel-title">已选课程</h3><% end %>
           <% if student_logged_in? %>
-          <button style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:0.5%;position:absolute" onclick="setSchedule()">课表</button>
+          <button id="showBT" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:0.5%;position:absolute" onclick="setSchedule()" value = 0>课表</button>
           <% end %>
         </div>
 
@@ -283,7 +283,12 @@
   });
 
   function setSchedule(){
-    document.getElementById("courseTable").style.display = "block";
+    
+    var btvalue = document.getElementById("showBT").value;
+    if(btvalue == 0)
+    {
+      document.getElementById("showBT").value = 1;
+      document.getElementById("courseTable").style.display = "block";
     document.getElementById("downloadBt").style.display = "block";
     var hashWeek = {"周一":1,"周二":2,"周三":3,"周四":4,"周五":5,"周六":6,"周日":7};
     
@@ -313,6 +318,14 @@
       // alert(inputCol);
       // $(domHTML).append(inputCol);
     <% end %>
+    }
+    else
+    {
+      document.getElementById("courseTable").style.display = "none";
+     document.getElementById("downloadBt").style.display = "none";
+     document.getElementById("showBT").value = 0;
+    }
+    
     // alert(arr);
     // for(var i = 1; i <=11; i++)
     // {

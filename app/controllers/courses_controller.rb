@@ -200,10 +200,15 @@ class CoursesController < ApplicationController
            redirect_to list_courses_path, flash: flash
         end
       end
+      if @course.limit_num.nil? or @course.limit_num<=0
+        @course.limit_num=0
+      end
       
       #成功选课
       @course.student_num +=1
-      @course.update_attributes(:student_num => @course.student_num)  
+      @course.limit_num +=1
+      @course.update_attributes(:student_num => @course.student_num)
+      @course.update_attributes(:limit_num => @course.student_num)  
       current_user.courses<<@course  
       @grades=current_user.grades.find_by(course_id: params[:id])
       @grades.update_attributes(:degree => 1)
@@ -232,9 +237,14 @@ class CoursesController < ApplicationController
         end
       end
      
+      if @course.limit_num.nil? or @course.limit_num<=0
+        @course.limit_num=0
+      end
       #成功选课
       @course.student_num +=1
+      @course.limit_num +=1
      @course.update_attributes(:student_num => @course.student_num)  
+     @course.update_attributes(:limit_num => @course.limit_num)  
       current_user.courses<<@course  
      @grades=current_user.grades.find_by(course_id: params[:id])
      @grades.update_attributes(:degree => 0)
@@ -250,9 +260,20 @@ class CoursesController < ApplicationController
 
   def quit
     @course=Course.find_by_id(params[:id])
+    @grades=current_user.grades.find_by(course_id: params[:id])
+    if @course.student_num.nil? or @course.student_num<=0
+        @course.student_num=0
+    end
+    if @course.limit_num.nil? or @course.limit_num<=0
+        @course.limit_num=0
+    end
+    if @grades.degree != 3
+      @course.student_num -=1
+      @course.limit_num -=1
+     @course.update_attributes(:student_num => @course.student_num)
+     @course.update_attributes(:limit_num => @course.limit_num) 
+    end
     current_user.courses.delete(@course)
-    @course.student_num +=1
-    @course.update_attributes(:student_num => @course.student_num) 
     flash={:success => "成功退选课程: #{@course.name}"}
     redirect_to courses_path, flash: flash
   end
