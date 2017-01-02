@@ -17,8 +17,7 @@
         <thead>
           <tr>
             <th>类别</th>
-            <th>旁听公共选修课程学分</th>
-            <th>旁听专业学位课程学分</th>
+            <th>旁听课程学分</th>
             <th>公共选修课程学分</th>
             <th>专业学位课学分要求</th>
             <th>总学分要求</th>
@@ -28,7 +27,6 @@
           <tr class="active">
             <td>学习要求</td>
             <td>无</td>
-            <td>无</td>
             <td>>=2.0学分</td>
             <td>>=12.0学分</td>
             <td>>=30.0学分</td>
@@ -36,8 +34,7 @@
           <tr class="success">
             <td>选课情况</td>
              <!--学分提示的方法在course_controller/credittips,不放入视图界面中计算-->
-             <td><%= @chosen_PT_public %>学分</td>
-             <td><%= @chosen_PT_major %>学分</td>
+             <td><%= @chosen_PT_all %>学分</td>
             <td><%= @chosen_credit_public %>学分</td>
             <td><%= @chosen_credit_major %>学分</td>
             <td><%= @chosen_credit_all %>学分</td>
@@ -45,8 +42,7 @@
           <tr class="danger">
             <td>获取学分</td>
             <!--学分计算的方法同样放在course_controller/credittips,不放入视图界面中计算-->
-            <td><%= @obtained_PT_public %>学分</td>
-            <td><%= @obtained_PT_major %>学分</td>
+            <td><%= @obtained_PT_all %>学分</td>
             <td><%= @obtained_credit_pubic %>学分</td>
             <td><%= @obtained_credit_major %>学分</td>
             <td><%= @obtained_credit_all %>学分</td>

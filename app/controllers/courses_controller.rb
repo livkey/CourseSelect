@@ -175,69 +175,53 @@ class CoursesController < ApplicationController
     @courses=current_user.courses
     @grades=current_user.grades
     
-    #旁听课学分统计
-    @chosen_PT_public = 0.0
-    @chosen_PT_major = 0.0
+    #选课学分统计
     @chosen_PT_all = 0.0
-    
-    @grades.each do |grade|
-      if grade.degree == 3
-        if grade.course.course_type == "公共选修课" then
-          @chosen_PT_public = @chosen_PT_public + grade.course.credit[-3..-1].to_f
-        end
-        if grade.course.course_type == "专业核心课" then
-          @chosen_PT_major = @chosen_PT_major + grade.course.credit[-3..-1].to_f
-        end
-      end
-    end
-    @chosen_PT_all = @chosen_PT_major + @chosen_PT_public
-    
-    @obtained_PT_all = 0.0
-    @obtained_PT_public = 0.0
-    @obtained_PT_major = 0.0
-    @grades.each do |grade|
-      if grade.degree == 3 && grade.grade.nil? == false
-        if grade.course.course_type == "公共选修课" then
-          @obtained_PT_public = @obtained_PT_public + grade.course.credit[-3..-1].to_f
-        end
-        if grade.course.course_type == "专业核心课" then
-          @obtained_PT_major = @obtained_PT_major + grade.course.credit[-3..-1].to_f
-        end
-      end
-    end
-    @obtained_PT_all = @obtained_PT_major + @obtained_PT_public
-    
-    
     @chosen_credit_all = 0.0
     @chosen_credit_public = 0.0
     @chosen_credit_major = 0.0
-    @courses.each do |course|
-      @chosen_credit_all = @chosen_credit_all+ course.credit[-3..-1].to_f
-      if course.course_type == "公共选修课" then
-         @chosen_credit_public = @chosen_credit_public+course.credit[-3..-1].to_f
-      end
-      if course.course_type == "专业核心课" then
-         @chosen_credit_major = @chosen_credit_major+course.credit[-3..-1].to_f
+    
+    @grades.each do |grade|
+      #旁听课
+      if grade.degree == 3
+          @chosen_PT_all = @chosen_PT_all + grade.course.credit[-3..-1].to_f
+      else
+        @chosen_credit_all += grade.course.credit[-3..-1].to_f
+        #公选课
+        if grade.course.course_type == "公共选修课"
+          @chosen_credit_public += grade.course.credit[-3..-1].to_f
+        end
+        #学位课
+        if grade.degree == 1
+          @chosen_credit_major += grade.course.credit[-3..-1].to_f
+        end
       end
     end
     
-   @obtained_credit_pubic = 0.0
-   @obtained_credit_major = 0.0
-   @obtained_credit_all = 0.0
-   @grades.each do |grade|
+    #已获得学分统计 
+    @obtained_PT_all = 0.0
+    @obtained_credit_pubic = 0.0
+    @obtained_credit_major = 0.0
+    @obtained_credit_all = 0.0
+    
+    @grades.each do |grade|
       if grade.grade.nil? == false
-         @obtained_credit_all += grade.course.credit[-3..-1].to_f
-         if grade.course.course_type == "公共选修课"
+        #旁听课
+        if grade.degree == 3 
+          @obtained_PT_all = @obtained_PT_all + grade.course.credit[-3..-1].to_f
+        else
+          @obtained_credit_all += grade.course.credit[-3..-1].to_f
+          if grade.course.course_type == "公共选修课"
             @obtained_credit_public += grade.course.credit[-3..-1].to_f
-         end
-         if grade.course.course_type == "专业核心课"
+          end
+          if grade.degree == 1
              @obtained_credit_major += grade.course.credit[-3..-1].to_f
-         end
+          end
+        end
       end
-   end
+    end
   end
-  
- 
+
  def filter
     redirect_to list_courses_path(params)
     
