@@ -1,4 +1,8 @@
 source 'https://gems.ruby-china.org'
+gem 'roo'
+gem 'roo-xls'
+
+gem 'spreadsheet'
 
 gem 'bootstrap-sass', '~> 3.3.7'
 # Use ActiveModel has_secure_password

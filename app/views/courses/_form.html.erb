@@ -70,12 +70,15 @@
     <div class="form-group">
       <%= f.label "限选人数", class: 'col-sm-2 control-label' %>
       <div class="col-sm-10">
-        <div class="input-group">
+        <div class="input-group" onchange="checkInput('limitNumber')">
           <div class="input-group-addon"><span class="glyphicon glyphicon-arrow-right"></span></div>
-          <%= f.text_field :limit_num, class: 'form-control', placeholder: "输入限选人数" %>
+          <%= f.text_field :limit_num, class: 'form-control', placeholder: "输入限选人数", id: 'limitNumber' %>
         </div>
       </div>
     </div>
+    <div id="limitnumWarning" style="position:absolute; left:99%; top:38%; width:40%; color:yellow">
+      限选人数需大于等于0（>=0）！
+      </div>
 
     <div class="form-group">
       <%= f.label "课时学分", class: 'col-sm-2 control-label' %>
@@ -121,14 +124,18 @@
            <div class="form-control">
           <%= f.text_field :course_week, id:"courseweek",class: 'courseweek',placeholder: "第1-18周", value: "第1-18周",  readonly: true,  style: "background-color:#bfbfbf;appearance:none;width:20%;" %>
           <label>第</label>
-          <input style="appearance:none;width:20%;" id="courseweek1"  placeholder="开课周" onchange="setValue('courseweek')" >
+          <input style="appearance:none;width:20%;" id="courseweek1"  placeholder="开课周" onchange="setValue('courseweek')" value="1" >
           <label>-</label>
-          <input style="appearance:none;width:20%;" id="courseweek2"  placeholder= "结课周" onchange="setValue('courseweek')" >
+          <input style="appearance:none;width:20%;" id="courseweek2"  placeholder= "结课周" onchange="setValue('courseweek')" value = "18" >
           <label>周</label>
           </div>
         </div>
       </div>
     </div>
+     <div id="courseweekWarning" style="position:absolute; left:99%; top:55%; width:40%; color:yellow">
+      开课周需早于结课周！
+      </div>
+    
 
     <div class="form-group">
       <%= f.label "上课时间", class: 'col-sm-2 control-label' %>
@@ -138,7 +145,8 @@
           
           <div class="form-control">
             
-            <%= f.text_field :course_time, id: "courseTime", placeholder: "周一(1-2)", value: "周一(1-2)", class: 'courseTime', readonly: true,  style: "background-color:#bfbfbf" %>
+            <%= f.text_field :course_time, id: "courseTime", placeholder: "周一(1-2)", value: "周一(1-2)",
+                    class: 'courseTime', readonly: true,  style: "background-color:#bfbfbf" %>
             
              <select class="coursetake_week" id= "coursetake_week" style="appearance:none;width:20%" onchange="setValue('courseTime')">
              <option selected=true>周一</option>
@@ -203,6 +211,44 @@
       
       
     <script type= "text/javascript">
+    
+    // 初始加载页面隐藏warning！
+    $(function(){
+     document.getElementById("limitnumWarning").style.display = "none";
+     document.getElementById("courseweekWarning").style.display = "none";
+    });
+    
+    // 检查限选人数、开课时间输入是否合法
+    function checkInput(idname){
+      // alert("aaa");
+      if(idname == "courseweek")
+        {
+          var start = parseInt(document.getElementById("courseweek1").value);
+          var end = parseInt(document.getElementById("courseweek2").value);
+          if(start < end)
+            return true;
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          var number = parseInt(document.getElementById("limitNumber").value);
+          if(number <0)
+          {
+            document.getElementById("limitnumWarning").style.display = "block";
+            document.getElementById(idname).value = 0;
+            return false;
+          }
+          else
+          {
+            document.getElementById("limitnumWarning").style.display = "none";
+            return true;
+          }
+        }
+    }
+    
      function setValue(idname)
      {
       // alert(idname == "courseTime");
@@ -217,7 +263,17 @@
       }
       else
       {
-       document.getElementById(idname).value = "第"+document.getElementById("courseweek1").value+"-"+document.getElementById("courseweek2").value+"周";
+        if(checkInput(idname) == false)
+          {
+            document.getElementById("courseweekWarning").style.display = "block";
+            document.getElementById("courseweek1").value = 1;
+            document.getElementById("courseweek2").value = 18;
+          }
+        else
+          {
+            document.getElementById("courseweekWarning").style.display = "none";
+            document.getElementById(idname).value = "第"+document.getElementById("courseweek1").value+"-"+document.getElementById("courseweek2").value+"周";
+          }
       }
            // alert(document.getElementById("courseTime").value);   
       
