@@ -299,14 +299,27 @@
     <% @current_user.courses.each do |course| %>
     var eachcoursetime="<%= course.course_time.strip %>"; 
     var l_bracket="<%= course.course_time.index("(") %>";
-    var start = l_bracket  
     var r_bracket="<%= course.course_time.index(")") %>";  
     var m_line="<%= course.course_time.index("-") %>";  
-    
+     
     var eachWeek ="<%= course.course_time[0..1] %>";
     eachWeek = hashWeek[eachWeek];
-    var eachClassStart = "<%= course.course_time[3..3].to_i(base=10) %>";
-    var eachClassEnd =  "<%= course.course_time[5..5].to_i(base=10) %>";
+    if(m_line == 4 )
+    {
+      var eachClassStart = "<%= course.course_time[3..3].to_i(base=10) %>";
+      if(r_bracket == 6 )
+        var eachClassEnd = "<%= course.course_time[5..5].to_i(base=10) %>";
+      else if (r_bracket == 7 )
+        var eachClassEnd = "<%= course.course_time[5..6].to_i(base=10) %>"; 
+    }
+    else if (m_line == 5 )
+    {
+      var eachClassStart = "<%= course.course_time[3..4].to_i(base=10) %>";
+      if(r_bracket == 7 )
+        var eachClassEnd = "<%= course.course_time[6..6].to_i(base=10) %>";
+      else if (r_bracket == 8 )
+        var eachClassEnd = "<%= course.course_time[6..7].to_i(base=10) %>"; 
+    }
     
     var mm = ++eachClassEnd- eachClassStart;
     //eachClassEnd -= eachClassEnd   //不管用！！！
