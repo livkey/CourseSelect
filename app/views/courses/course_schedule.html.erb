@@ -209,14 +209,7 @@
       document.getElementById("showBT").value = 1;
       document.getElementById("courseTable").style.display = "block";
       document.getElementById("downloadBt").style.display = "block";
-      var hashWeek = {"周一":1,"周二":2,"周三":3,"周四":4,"周五":5,"周六":6,"周日":7};
-    
-    // document.getElementById("1-1").innerHTML = "高数";
-    // document.getElementById("1-1").value = "高数";
-    // // var weekHTML = document.getElementById("1")
-    // // $(weekHTML).append("<td>Hello world!</td>");
-    // document.getElementById("1-1").rowspan ="2";
-    // alert(document.getElementById("1-2").rowspan);
+      var hashWeek = {"周一":1,"周二":2,"周三":3,"周四":4,"周五":5,"周六":6,"周日":7}; 
     
     var arr = new Array();
   
@@ -227,18 +220,11 @@
       eachWeek = hashWeek[eachWeek];
       var eachClassStart = "<%= course.course_time[3..3].to_i %>";
       var eachClassEnd =  "<%= course.course_time[5..5].to_i %>";
-      for(var index = eachClassStart; index<=eachClassEnd; index++)
-        // arr.push(index+"-"+eachWeek);
+      for(var index = eachClassStart; index<=eachClassEnd; index++) 
         {
           // 旁听课程可能会与选课时间有冲突
           document.getElementById(index+"-"+eachWeek).innerHTML = "<%= course.name %>"+"<br/>"+"<%= course.course_week %>"+"<%= course.course_time %>"+"<br/>"+"<%= course.class_room %>"+"<br/>"+"<%= course.teacher.name %>";
-        }
-      // alert(arr);
-      // var dur = eachClassEnd - eachClassStart+1;
-      // var domHTML = document.getElementById(eachClassStart);
-      // var inputCol = "<td rowspan="+dur+"><%= course.name  %></td>";
-      // alert(inputCol);
-      // $(domHTML).append(inputCol);
+        } 
     <% end %>
     }
     else
@@ -246,24 +232,7 @@
       document.getElementById("courseTable").style.display = "none";
       document.getElementById("downloadBt").style.display = "none";
       document.getElementById("showBT").value = 0;
-    }
-    
-    // alert(arr);
-    // for(var i = 1; i <=11; i++)
-    // {
-    //   for(var j = 1; j<=7; j++)
-    //   {
-    //     for(var index = 0; index<arr.length; index ++)
-    //       if((i+"-"+j) == arr[index])
-    //         {
-    //           alert(i+"-"+j);
-    //           document.getElementById(i+"-"+j).style.display = "none";
-    //         }
-    //         // else
-    //         // alert(i+"-"+j);
-    //   }
-    // }
-      
+    } 
   }
 </script>
 
