@@ -5,14 +5,17 @@
       <%= render "shared/sidenav" %>
     </div>
 
-    <div class="col-sm-10" style="left:14%; width: 86%; position:absolute">
+    <div class="col-sm-10" style="left:14%; width: 84%; position:absolute">
 
-      <div class="panel panel-primary filterable">
+      <div class="panel panel-primary filterable"> 
         <div class="panel-heading">
           <% if teacher_logged_in? %><h3 class="panel-title">授课列表</h3><% end %>
           <% if student_logged_in? %><h3 class="panel-title">已选课程</h3><% end %>
           <% if student_logged_in? %>
-          <button id="showBT" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:0.5%;position:absolute" onclick="setSchedule()" value = 0>课表</button>
+          <button id="downloadBt" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:78.0%; 
+            top:0.6%;position:absolute" onclick="downloadSchedule()">下载课表</button>
+          <button id="showBT" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:88%; 
+            top:0.6%;position:absolute" onclick="setSchedule()" value = 0>课表</button>
           <% end %>
         </div>
 
@@ -95,39 +98,32 @@
     <div class="panel panel-primary filterable" id="courseTable" style="left:-10%;top:10%;width:110%;position:relative;z-index:-1;">
         <div class="panel-heading">
           <% if student_logged_in? %><h3 class="panel-title">个人课表</h3><% end %>
-          <!--<button style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; top:0.8%;position:absolute;z-index:100" onclick="downloadSchedule()">下载课表</button>-->
         </div>
 
         <div class="panel-body">
           
-          
     <div class="container">
-        <div class="detail" style="position:relative;">
+        <div class="detail" style="position:relative">
             <table>
                 <tr>
                     <td>学号 : <%= current_user.num %></td>
                     <td>姓名 : <%= current_user.name %></td>
                     <td>年级 : 2016</td>
-                    <td>学期 : 第一学期</td>
-                    <td></td>
                 </tr>
                 <tr>
+                    <td>学期 : 第一学期</td>
                     <td>学院 : <%= current_user.department  %></td>
                     <td>专业 : <%= current_user.major %></td>
-                    <td colspan=1></td>
-                    <td class="input">  
-                    </td>
-                    <td></td>
                 </tr>
             </table>
      
-        </div>
-
+        </div>   
+        
         <main style="top:5px;position:relative">
             <table class="table2excel">
                 <thead>
                     <tr>
-                        <th class="week"></th>
+                        <th class="week"> </th>
                         <th class="week" value=1>周一</th>
                         <th class="week" value=2>周二</th>
                         <th class="week" value=3>周三</th>
@@ -257,12 +253,7 @@
       </div>
       <!--与底部之间间隔一个空白边-->
       <div style="height:50px; width:100%"></div>
-      
-  </div>
-  <div>    
-     <button id="downloadBt" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:61.6%; 
-      top:75%;position:absolute;z-index:100" onclick="downloadSchedule()">下载课表</button>
-  </div>
+    </div>
 
 <script>
 			function downloadSchedule() {
@@ -294,8 +285,7 @@
       document.getElementById("courseTable").style.display = "block";
       document.getElementById("downloadBt").style.display = "block";
       var hashWeek = {"周一":1,"周二":2,"周三":3,"周四":4,"周五":5,"周六":6,"周日":7}; 
-      
-    var arr = new Array();
+       
     <% @current_user.courses.each do |course| %>
     var eachcoursetime="<%= course.course_time.strip %>"; 
     var l_bracket="<%= course.course_time.index("(") %>";
