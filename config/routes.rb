@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-
+  #get 'grades/gradeexport' => "grades#gradeexport"
+  get 'grades/stugradeexport' => "grades#stugradeexport"
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -57,9 +58,13 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]#好不容易找到了。
  
   resources :grades do
+    member do
+      
+     end
     collection do
       get :evaluate
-     
+      get :stugradeexport
+      
     end
   end
   resources :users 
