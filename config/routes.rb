@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  #get 'grades/gradeexport' => "grades#gradeexport"
-  get 'grades/stugradeexport' => "grades#stugradeexport"
+  get 'grades/gradeexport' => "grades#gradeexport"
+  #get 'grades/stugradeexport' => "grades#stugradeexport"
+  
   get 'password_resets/new'
 
   get 'password_resets/edit'
