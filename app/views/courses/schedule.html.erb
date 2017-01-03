@@ -1,0 +1,152 @@
+<!--<script type="text/javascript" src="ichart.1.2.min.js"></script>-->
+
+
+
+ 
+
+<head>
+    <meta charset="UTF-8">
+    <title>学生课表</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2>学生个人课表</h2>
+        </div>
+        <div class="detail">
+            <table>
+                <tr>
+                    <td>学号 : 2016E8007361075</td>
+                    <td>姓名 : 刘勇</td>
+                    <td>年级 : 2016</td>
+                    <td>学期 : </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>专业 : 计算机技术</td>
+                    <td colspan="2"></td>
+                    <td class="input">
+  <button id="downloadBt" style= "width:80px;height:25px;padding:2px;font-size:13px;color:black;left:90%; 
+              top:69%;position:absolute;z-index:100" onclick="downloadSchedule()">课表下载</button>
+                    <input type="button" value="课表下载">
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>  </th>
+                        <th class="week">星期一</th>
+                        <th class="week">星期二</th>
+                        <th class="week">星期三</th>
+                        <th class="week">星期四</th>
+                        <th class="week">星期五</th>
+                        <th class="week">星期六</th>
+                        <th class="week">星期天</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td class="classes">第一节</td>
+                        <td rowspan="2"></td>
+                        <td></td>
+                        <td rowspan="2"></td>
+                        <td rowspan="2"></td>
+                        <td></td>
+                        <td rowspan="2"></td>
+                        <td rowspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第二节</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第三节</td>
+                        <td rowspan="2"> 高等数学 三教   教师   刘大勇    上课教室103 </td>
+                        <td rowspan="2"> </td>
+                        <td rowspan="2"> </td>
+                        <td rowspan="2"> </td>
+                        <td rowspan="2"> </td>
+                        <td rowspan="2"> </td>
+                        <td rowspan="2"> </td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第四节</td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第五节</td>
+                        <td rowspan="3">高数 三教</td>
+                        <td rowspan="2"></td>
+                        <td rowspan="2"></td>
+                        <td rowspan="2"></td>
+                        <td rowspan="2"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第六节</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第七节</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td rowspan="2"></td>
+                        <td></td>
+                        <td></td> 
+                    </tr>
+                    <tr>
+                        <td class="classes">第八节</td>
+                        <td>高数 三教</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第九节</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第十节</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="classes">第十一节</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>

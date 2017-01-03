@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       get :list
       get :credittips
       get :filter
+      get :course_schedule
       
     end
   end

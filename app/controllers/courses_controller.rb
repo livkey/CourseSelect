@@ -238,16 +238,17 @@ class CoursesController < ApplicationController
       if @course.limit_num.nil? or @course.limit_num<=0
         @course.limit_num=0
       end
+      
       #成功选课
       @course.student_num +=1
-     @course.update_attributes(:student_num => @course.student_num)  
+      @course.update_attributes(:student_num => @course.student_num)  
       current_user.courses<<@course  
-     @grades=current_user.grades.find_by(course_id: params[:id])
-     @grades.update_attributes(:degree => 0)
-     flash={:success => "成功选择课程为非学位课: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
-     redirect_to list_courses_path, flash: flash   #选完课后应停留在选课页面，否则继续选课很麻烦
+      @grades=current_user.grades.find_by(course_id: params[:id])
+      @grades.update_attributes(:degree => 0)
+      flash={:success => "成功选择课程为非学位课: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
+      redirect_to list_courses_path, flash: flash   #选完课后应停留在选课页面，否则继续选课很麻烦
       
-     else 
+    else 
       flash={:danger => "选课冲突！冲突课程: #{@course.course_code}, #{@course.name}, #{@course.teacher.name }, #{@course.course_time}"}
       redirect_to list_courses_path, flash: flash
     end
@@ -260,13 +261,12 @@ class CoursesController < ApplicationController
     if @course.student_num.nil? or @course.student_num<=0
         @course.student_num=0
     end
-    if @course.limit_num.nil? or @course.limit_num<=0
-        @course.limit_num=0
-    end
+    
     if @grades.degree != 3
       @course.student_num -=1
-     @course.update_attributes(:student_num => @course.student_num)
+      @course.update_attributes(:student_num => @course.student_num)
     end
+    
     current_user.courses.delete(@course)
     flash={:success => "成功退选课程: #{@course.name}"}
     redirect_to courses_path, flash: flash
@@ -323,32 +323,42 @@ class CoursesController < ApplicationController
     end
   end
 
- def filter
+  def filter
     redirect_to list_courses_path(params)
     
- end
+  end
  
- def modifydegree
+  def modifydegree
     @grades=current_user.grades.find_by(course_id: params[:id])
     @courseName = Course.find_by_id(params[:id]).name
     if @grades.degree == 1 then
       @grades.update_attributes(:degree => 0)
       flash={:success => "#{@courseName}更改为非学位课"}
-    elsif @grades.degree == 3 then
-      @grades.update_attributes(:degree => 0)
-      flash={:success => "#{@courseName}更改为非学位课"}
-    else
+    #旁听课不可以修改
+    #elsif @grades.degree == 3 then       
+    #  @grades.update_attributes(:degree => 0)
+    #  flash={:success => "#{@courseName}更改为非学位课"}
+    elsif @grades.degree == 0 then  
       @grades.update_attributes(:degree => 1)
       flash={:success => "#{@courseName}更改为学位课"}
     end
     redirect_to courses_path, flash: flash
- end
+  end
 
+  def course_schedule
+    @course=current_user.teaching_courses if teacher_logged_in?
+    @course=current_user.courses if student_logged_in?
+  end
+
+ 
   #-------------------------for both teachers and students----------------------
 
   def index
     @course=current_user.teaching_courses if teacher_logged_in?
     @course=current_user.courses if student_logged_in?
+    
+    
+    $span=2
     
     @course_all=Course.all
     @course_all=@course_all-@course
