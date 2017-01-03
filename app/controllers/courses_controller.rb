@@ -280,15 +280,19 @@ class CoursesController < ApplicationController
     if @course.student_num.nil? or @course.student_num<=0
         @course.student_num=0
     end
-    
+    @course.update_attributes(:open=>true)
     if @grades.degree != 3
       @course.student_num -=1
+      if @course.student_num.nil? or @course.student_num<=0
+          @course.student_num=0
+      end
       @course.update_attributes(:student_num => @course.student_num)
     end
     
     current_user.courses.delete(@course)
     flash={:success => "成功退选课程: #{@course.name}"}
     redirect_to courses_path, flash: flash
+    
   end
   
   def credittips
@@ -375,9 +379,6 @@ class CoursesController < ApplicationController
   def index
     @course=current_user.teaching_courses if teacher_logged_in?
     @course=current_user.courses if student_logged_in?
-    
-    
-    $span=2
     
     @course_all=Course.all
     @course_all=@course_all-@course

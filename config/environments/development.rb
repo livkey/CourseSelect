@@ -57,12 +57,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :test 
   config.action_mailer.default :charset => 'utf-8'
-<<<<<<< HEAD
   host = 'https://course-select-yongliu-ucas.cs50.io'
-=======
-  host = 'https://course-select-zikangli.c9users.io'
-  # host = 'https://courseselect-yongliu-ucas.cs50.io'
->>>>>>> 4438c9d5b9ef7a5f44c6b30583ea0d7cf4055346
   config.action_mailer.default_url_options = { host: host }
 
 

@@ -97,7 +97,7 @@
       
       
         <!--课表-->
-    
+ <% if student_logged_in? %>
     <div class="panel panel-primary filterable" id="courseTable" style="left:-10%;top:10%;width:110%;position:relative;z-index:-1;">
         <div class="panel-heading">
           <% if student_logged_in? %><h3 class="panel-title">个人课表</h3><% end %>
@@ -256,7 +256,8 @@
       </div>
       <!--与底部之间间隔一个空白边-->
       <div style="height:50px; width:100%"></div>
-    </div>
+   <% end %>
+ </div>
 
 <script>
 			function downloadSchedule() {
