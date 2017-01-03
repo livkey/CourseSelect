@@ -54,6 +54,21 @@ class CoursesController < ApplicationController
     @course.update_attributes(:open=>false)
     redirect_to courses_path, flash: {:success => "已经成功关闭该课程:#{ @course.name}"}
   end
+  #学生名单导出
+  def stuexport
+    @course = Course.find_by_id(params[:id])
+        require 'tempfile'
+        temp_file = Tempfile.new("#{current_user.id.to_s+'_'+@course.name}.xls")
+        workbook = Spreadsheet::Workbook.new
+        worksheet = workbook.create_worksheet
+        worksheet.row(0).concat %w{学号 姓名 邮箱 专业 培养单位}
+        @course.users.each_with_index do |user , i|
+          worksheet.row(i+1).push user.num, user.name, user.email, user.major, user.department
+        end 
+        workbook.write temp_file
+        send_file temp_file, :type => "application/vnd.ms-excel", :filename => "#{@course.name}.xls", :stream => false
+        # temp_file.rewind
+  end
   
   def courseplan
       @course=Course.find_by_id(params[:id])
@@ -70,7 +85,11 @@ class CoursesController < ApplicationController
   def coursecontent
     @course=Course.find_by_id(params[:id])
   end
-
+  #显示学生列表
+  def studentlist
+    @course = Course.find_by_id(params[:id])
+    @user = @course.users
+  end
   #-------------------------for students----------------------
 
 
