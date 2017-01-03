@@ -41,7 +41,38 @@ class GradesController < ApplicationController
       @grades_all=@course.grades
     end
   end
-
+  #成绩名单导出
+  def  stugradeexport
+       @grades=current_user.grades
+       @course=Course.find_by_id(params[:course_id])
+        require 'tempfile'
+        temp_file = Tempfile.new("#{current_user.name+'学生成绩'}.xls")
+        workbook = Spreadsheet::Workbook.new
+        worksheet = workbook.create_worksheet
+        worksheet.row(0).concat %w{课程名称 主讲教师邮箱 成绩}
+        current_user.grades.each_with_index do |grade, i|
+          worksheet.row(i+1).push  grade.course.name,  grade.course.teacher.email, grade.grade
+        end
+        workbook.write temp_file
+        send_file temp_file, :type => "application/vnd.ms-excel", :filename => "#{'学生成绩——'+current_user.name}.xls", :stream => false
+        # temp_file.rewind
+ end
+ def gradeexport
+  
+       @course=Course.find_by_id(params[:course_id])
+        require 'tempfile'
+        temp_file = Tempfile.new("#{current_user.id.to_s+'_'+@course.name+'学生成绩'}.xls")
+        workbook = Spreadsheet::Workbook.new
+        worksheet = workbook.create_worksheet
+        worksheet.row(0).concat %w{学号 姓名 邮箱 专业 培养单位 成绩}
+        @course.grades.each_with_index do |grade, i|
+          worksheet.row(i+1).push grade.user.num, grade.user.name, grade.user.email, grade.user.major, grade.user.department, grade.grade
+        end
+        workbook.write temp_file
+        send_file temp_file, :type => "application/vnd.ms-excel", :filename => "#{'学生成绩——'+@course.name}.xls", :stream => false
+        # temp_file.rewind
+   
+ end
   private
 
   
