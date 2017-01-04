@@ -215,13 +215,12 @@
     }
     var mm = ++eachClassEnd- eachClassStart;
     //eachClassEnd -= eachClassEnd   //不管用！！！
-     --eachClassEnd
-    // 旁听课程可能会与选课时间有冲突 
+     --eachClassEnd 
      document.getElementById(eachClassStart+"-"+eachWeek).rowSpan=mm; 
      document.getElementById(eachClassStart+"-"+eachWeek).innerHTML += "<%= course.name %>"+"<br/>"+"<%= course.course_week %>"+"<%= course.course_time %>"+"<br/>"+"<%= course.class_room %>"+"<br/>"+"<%= course.teacher.name %>";
     
     for(var index = ++eachClassStart; index<=eachClassEnd; index++) 
-        {  //神奇了，不能用+1 而能用++
+        {  //控制课程格子不显示
         document.getElementById(index+"-"+eachWeek).style.display="none"
         } 
     <% end %>

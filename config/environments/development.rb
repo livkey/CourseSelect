@@ -36,7 +36,7 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
- #生产环境中邮件功能代码 
+  #生产环境中邮件功能代码 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   host = 'https://courseselectucas.herokuapp.com'
@@ -44,15 +44,13 @@ Rails.application.configure do
   
   ActionMailer::Base.smtp_settings = {
     :address => 'smtp.sendgrid.net',
-    :port => '25',
+    :port => '587',
     :authentication => :plain,
     :user_name => "408840259@qq.com",
     :password => "livkey123",
     :domain => 'heroku.com',
     :enable_starttls_auto => true   
-  } 
- 
-
+  }
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

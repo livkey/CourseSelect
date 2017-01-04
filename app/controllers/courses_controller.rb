@@ -179,7 +179,10 @@ class CoursesController < ApplicationController
     $last_class1=last_class1.to_i(base=10) #转化成数字，生成课程的时候要用
     
   end
+  
+  
 
+  #检测课程是否冲突
   def test_course_conflict(course)
     current_user.courses.each do |single|
       tranform_course_time(course.course_time.strip,single.course_time.strip)
