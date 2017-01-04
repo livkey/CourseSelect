@@ -187,8 +187,11 @@ class CoursesController < ApplicationController
       if $day_of_week==$day_of_week1
         if $last_class>= $first_class1 or $first_class<=$last_class1
           return current_user.course_not_conflict = false
+        else
+          current_user.course_not_conflict = true
         end
-      else  #
+      else  
+        current_user.course_not_conflict = true
         break
       end
     end

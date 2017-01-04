@@ -36,29 +36,22 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-=begin
-  #邮件功能代码 
+ #生产环境中邮件功能代码 
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.default :charset => 'utf-8'
-  config.action_mailer.default_url_options = {:host => 'localhost:3000'}
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              'smtp.ym.163.com',
-    port:                 "25",
-    domain:               yourdomain,   #改成自己的账户密码
-    user_name:            yourusername,
-    password:             youpassword,
-    authentication:       :plain,
-    enable_starttls_auto: true  
-  }
-=end   
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :test 
-  config.action_mailer.default :charset => 'utf-8'
-  host = 'https://course-select-yongliu-ucas.cs50.io'
+  host = 'https://courseselectucas.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
+  
+  ActionMailer::Base.smtp_settings = {
+    :address => 'smtp.sendgrid.net',
+    :port => '25',
+    :authentication => :plain,
+    :user_name => ENV['SENDGRID_USERNAME'],
+    :password => ENV['SENDGRID_PASSWORD'],
+    :domain => 'heroku.com',
+    :enable_starttls_auto => true   
+  } 
+ 
 
 
   # Raises error for missing translations
