@@ -16,11 +16,6 @@ class SessionsController < ApplicationController
           redirect_to courses_path, :flash => flash   #激活后跳转路径设置为我的课程
           #redirect_back_or user
         end
-     # else
-     #   flash= {:warning => '账户还没激活.请检查您的邮箱并激活账户.'}
-     #   redirect_to sessions_login_path, :flash => flash  #没有激活还应该停在登录页面
-     # end    
-     
       else
        flash= {:warning => '账户还没激活.请检查您的邮箱并激活账户.'}
         redirect_to sessions_login_path, :flash => flash  #没有激活还应该停在登录页面
