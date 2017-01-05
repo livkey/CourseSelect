@@ -80,7 +80,7 @@ Rails.application.configure do
   #生产环境中邮件功能代码 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = ' https://courseselect-ucas.herokuapp.com'
+  host = ' https://courseselectucas.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
   
   ActionMailer::Base.smtp_settings = {
